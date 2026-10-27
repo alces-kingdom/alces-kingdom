@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071008">
+<title>Alces Kingdom | Official Portal</title>
+
+<style>
+:root {
+  --bg: #060b07;
+  --panel: #0e1910;
+  --green: #8bc56a;
+  --green-dark: #294b2b;
+  --text: #edf4e9;
+  --muted: #a6b5a1;
+  --border: #2b432d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  background:
+    linear-gradient(rgba(3, 9, 5, .91), rgba(3, 9, 5, .96)),
+    url("images/forest.jpg") center / cover fixed,
+    var(--bg);
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(5, 12, 7, .96);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+
+.navbar {
+  max-width: 1200px;
+  margin: auto;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.brand {
+  color: var(--green);
+  font-family: Georgia, serif;
+  font-size: 23px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+.brand small {
+  display: block;
+  font-family: Arial, sans-serif;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 4px;
+  margin-top: 5px;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+nav button {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  padding: 11px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: .2s;
+}
+
+nav button:hover,
+nav button.active {
+  color: var(--green);
+  border-color: var(--border);
+  background: #142116;
+}
+
+main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 35px 24px 65px;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+  animation: appear .3s ease;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.eyebrow {
+  color: var(--green);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(42px, 7vw, 78px);
+  line-height: 1;
+  margin: 18px 0;
+}
+
+h1 span {
+  color: var(--green);
+}
+
+h2 {
+  font-family: Georgia, serif;
+  font-size: 29px;
+}
+
+p {
+  line-height: 1.75;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.hero {
+  min-height: 440px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 35px;
+  align-items: center;
+  padding: 30px 0 45px;
+}
+
+.lead {
+  color: var(--muted);
+  font-size: 18px;
+  max-width: 540px;
+}
+
+.flag-frame {
+  background: linear-gradient(145deg, #142318, #080e09);
+  padding: 17px;
+  border: 1px solid #426342;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px #0009;
+}
+
+.flag-label {
+  color: var(--green);
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 4px;
+  margin: 4px 0 17px;
+}
+
+.flag {
+  width: 100%;
+  max-height: 350px;
+  object-fit: contain;
+  display: block;
+  border-radius: 5px;
+}
+
+.flag-caption {
+  color: var(--muted);
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin-top: 16px;
+}
+
+.button {
+  display: inline-block;
+  background: var(--green);
+  color: #071008;
+  border: 1px solid var(--green);
+  padding: 13px 20px;
+  border-radius: 7px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.button.secondary {
+  background: transparent;
+  color: var(--green);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.card {
+  background: linear-gradient(145deg, #101d12, #09100a);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.coordinates {
+  color: var(--green);
+  font-family: monospace;
+  background: #080e09;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+  overflow-wrap: anywhere;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 25px 0 35px;
+}
+
+.tile {
+  padding: 0;
+  text-align: left;
+  color: var(--text);
+  background: #0b150d;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.tile:hover {
+  transform: translateY(-4px);
+  border-color: var(--green);
+}
+
+.tile img {
+  width: 100%;
+  height: 155px;
+  object-fit: cover;
+  display: block;
+  background: #101a11;
+}
+
+.tile-content {
+  padding: 17px;
+}
+
+.tile h3 {
+  font-family: Georgia, serif;
+  letter-spacing: 2px;
+  margin: 0 0 8px;
+}
+
+.tile p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+.page-heading {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 25px;
+}
+
+.section-image {
+  display: block;
+  width: 100%;
+  max-height: 560px;
+  object-fit: contain;
+  background: #080e09;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.image-placeholder {
+  display: none;
+  padding: 35px 15px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+.success {
+  display: none;
+  text-align: center;
+  padding: 30px;
+  margin-top: 22px;
+  background: #122116;
+  border: 1px solid var(--green);
+  border-radius: 10px;
+}
+
+.success.show {
+  display: block;
+}
+
+.success h2 {
+  color: var(--green);
+}
+
+footer {
+  text-align: center;
+  padding: 28px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 3px;
+}
+
+@media (max-width: 800px) {
+  .navbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  main {
+    padding: 25px 15px 45px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  nav button {
+    padding: 9px;
+    font-size: 11px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="brand">
+      🫎 ALCES KINGDOM
+      <small>OFFICIAL PORTAL</small>
+    </div>
+
+    <nav>
+      <button class="active" data-page="home">Home</button>
+      <button data-page="army">Army</button>
+      <button data-page="government">Government</button>
+      <button data-page="money">Money</button>
+      <button data-page="laws">Laws</button>
+      <button data-page="citizenship">Get Citizenship</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- HOME -->
+<section class="page active" id="home">
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Nature · People · Kingdom</div>
+
+      <h1>Welcome to<br><span>Alces Kingdom</span></h1>
+
+      <p class="lead">
+        A micronation inspired by the northern forests,
+        the mighty moose, unity, and freedom.
+        A kingdom where nature and national identity meet.
+      </p>
+
+      <div class="actions">
+        <button class="button" data-goto="citizenship">
+          Become a Citizen →
+        </button>
+
+        <button class="button secondary" data-goto="government">
+          Explore the Kingdom
+        </button>
+      </div>
+    </div>
+
+    <!-- YOUR FLAG: put your PNG in images/flag.png -->
+    <div class="flag-frame">
+      <div class="flag-label">THE ROYAL STANDARD</div>
+
+      <img
+        class="flag"
+        src="images/flag.png"
+        alt="Official flag of Alces Kingdom"
+        onerror="this.style.display='none';document.getElementById('flagMissing').style.display='block';"
+      >
+
+      <div id="flagMissing" class="image-placeholder">
+        <strong>Your flag goes here</strong><br>
+        Put your PNG file in <code>images/flag.png</code>.
+      </div>
+
+      <div class="flag-caption">
+        ALCES KINGDOM · EST. 2026
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Our Nation</div>
+    <h2>A Kingdom Among the Forests</h2>
+
+    <p class="muted">
+      Alces Kingdom was founded on October 27, 2026.
+      This micronation brings together its own identity,
+      community, institutions, and ambitions for the future.
+      The moose represents the strength and spirit of the northern wilderness.
+    </p>
+
+    <h3>Territory Coordinates</h3>
+
+    <p class="coordinates">
+      57°30'11.98"N 18°26'30.09"E
+    </p>
+
+    <a
+      class="button secondary"
+      href="https://www.google.com/maps?q=57%C2%B030%2711.98%22N+18%C2%B026%2730.09%22E"
+      target="_blank"
+      rel="noopener"
+    >
+      View Territory on Map ↗
+    </a>
+  </div>
+
+  <div class="eyebrow">Explore the Kingdom</div>
+
+  <div class="grid">
+
+    <button class="tile" data-goto="army">
+      <img src="images/army.png" alt="Army"
+           onerror="this.style.display='none'">
+      <div class="tile-content">
+        <h3>⚔ Army</h3>
+        <p>Our army protects the kingdom and its people.</p>
+      </div>
+    </button>
+
+    <button class="tile" data-goto="government">
+      <img src="images/goverment.png" alt="Government"
+           onerror="this.style.display='none'">
+      <div class="tile-content">
+        <h3>♜ Government</h3>
+        <p>The structure that keeps Alces Kingdom running.</p>
+      </div>
+    </button>
+
+    <button class="tile" data-goto="money">
+      <img src="images/money.png" alt="Money"
+           onerror="this.style.display='none'">
+      <div class="tile-content">
+        <h3>◈ Money</h3>
+        <p>Our currency and economic information.</p>
+      </div>
+    </button>
+
+    <button class="tile" data-goto="laws">
+      <div class="tile-content">
+        <h3>§ Laws</h3>
+        <p>The rules and principles of the Kingdom.</p>
+      </div>
+    </button>
+
+    <button class="tile" data-goto="citizenship">
+      <div class="tile-content">
+        <h3>✦ Citizenship</h3>
+        <p>Join Alces Kingdom and become part of our community.</p>
+      </div>
+    </button>
+
+  </div>
+</section>
+
+<!-- ARMY -->
+<section class="page" id="army">
+  <div class="page-heading">
+    <div class="eyebrow">National Defence</div>
+    <h1>Army<span>.</span></h1>
+    <p class="muted">The military identity of Alces Kingdom.</p>
+  </div>
+
+  <div class="card">
+    <h2>Royal Army</h2>
+    <img class="section-image" src="images/army.png"
+         alt="Alces Kingdom Army"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+    <div class="image-placeholder">
+      Add your image as <code>images/army.png</code>.
+    </div>
+  </div>
+</section>
+
+<!-- GOVERNMENT -->
+<section class="page" id="government">
+  <div class="page-heading">
+    <div class="eyebrow">National Administration</div>
+    <h1>Government<span>.</span></h1>
+    <p class="muted">Leadership and administration of the Kingdom.</p>
+  </div>
+
+  <div class="card">
+    <h2>Royal Government</h2>
+    <img class="section-image" src="images/goverment.png"
+         alt="Alces Kingdom Government"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+    <div class="image-placeholder">
+      Add your image as <code>images/goverment.png</code>.
+    </div>
+  </div>
+</section>
+
+<!-- MONEY -->
+<section class="page" id="money">
+  <div class="page-heading">
+    <div class="eyebrow">Treasury & Economy</div>
+    <h1>Money<span>.</span></h1>
+    <p class="muted">The currency and economy of Alces Kingdom.</p>
+  </div>
+
+  <div class="card">
+    <h2>National Currency</h2>
+    <img class="section-image" src="images/money.png"
+         alt="Alces Kingdom Money"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+    <div class="image-placeholder">
+      Add your image as <code>images/money.png</code>.
+    </div>
+    <p class="muted">
+      Currency details will be announced by the Kingdom.
+      This page can be updated with the currency name,
+      symbols, and denominations.
+    </p>
+  </div>
+</section>
+
+<!-- LAWS -->
+
+<section class="page" id="laws">
+  <h1>Laws of Alces Kingdom</h1>
+  <p>National rules founded on freedom, responsibility, and Christian values.</p>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h2 style="color:var(--green);">Article I — Religion and Beliefs</h2>
+    <ol>
+      <li>Every citizen must identify as either Christian or non-religious.</li>
+      <li>Christianity is the national religion of Alces Kingdom.</li>
+      <li>Citizens may freely practice Christianity.</li>
+      <li>Citizens may choose to have no religion.</li>
+      <li>No citizen may be forced to believe in God.</li>
+      <li>No citizen may be forced to attend church or participate in religious activities.</li>
+      <li>The practice or promotion of other religions is not permitted under the nation's rules.</li>
+      <li>Citizens must respect one another's personal dignity.</li>
+      <li>Religious disagreements must be handled peacefully.</li>
+      <li>Violence or threats based on religion or lack of religion are prohibited.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h2 style="color:var(--green);">Article II — Freedom and Personal Rights</h2>
+    <ol start="11">
+      <li>Citizens have freedom of speech.</li>
+      <li>Citizens may criticize the government peacefully.</li>
+      <li>Citizens may express political opinions peacefully.</li>
+      <li>Citizens have the right to privacy.</li>
+      <li>Citizens may choose their own clothing and hobbies.</li>
+      <li>Citizens may peacefully assemble.</li>
+      <li>Citizens may form clubs and associations.</li>
+      <li>Citizens have the right to a fair hearing if accused of breaking a rule.</li>
+      <li>No official is above the laws of Alces Kingdom.</li>
+      <li>Citizens may disagree without being punished for their opinions alone.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h2 style="color:var(--green);">Article III — Crime and Public Safety</h2>
+    <ol start="21">
+      <li>Murder is prohibited.</li>
+      <li>Attempted murder is prohibited.</li>
+      <li>Assault is prohibited.</li>
+      <li>Robbery is prohibited.</li>
+      <li>Theft is prohibited.</li>
+      <li>Threatening someone with violence is prohibited.</li>
+      <li>Kidnapping is prohibited.</li>
+      <li>Deliberately damaging another person's property is prohibited.</li>
+      <li>Fraud and deliberate scams are prohibited.</li>
+      <li>Arson is prohibited.</li>
+      <li>Serious harassment and intimidation are prohibited.</li>
+      <li>Reasonable self-defence is permitted when necessary to protect oneself or another person.</li>
+      <li>Citizens must not use violence to settle personal disagreements.</li>
+      <li>Deliberately making false accusations to harm another person is prohibited.</li>
+      <li>Serious accusations should be investigated fairly.</li>
+      <li>Punishments should reflect the seriousness of the offence.</li>
+      <li>Minor disputes should normally be resolved peacefully.</li>
+      <li>Nobody may use threats to force another citizen to obey them.</li>
+      <li>Citizens must not deliberately endanger other people's lives.</li>
+      <li>Everyone is entitled to fair treatment when accused of an offence.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h2 style="color:var(--green);">Article IV — Economy and Private Property</h2>
+    <ol start="41">
+      <li>Private property is protected.</li>
+      <li>Citizens may own businesses.</li>
+      <li>Citizens may earn and save their own money.</li>
+      <li>Citizens may trade goods and services freely.</li>
+      <li>Citizens may choose their own lawful professions.</li>
+      <li>Stealing money or property is prohibited.</li>
+      <li>Fraudulent business practices are prohibited.</li>
+      <li>Citizens may donate money voluntarily.</li>
+      <li>Private property should not be taken without a legitimate legal basis.</li>
+      <li>The government should avoid unnecessary interference in private businesses.</li>
+      <li>Citizens may make voluntary agreements with one another.</li>
+      <li>Business owners must treat customers honestly.</li>
+      <li>Workers should be paid according to their agreed terms.</li>
+      <li>The government should use public funds responsibly.</li>
+      <li>Corruption and misuse of public money are prohibited.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h2 style="color:var(--green);">Article V — Government and National Identity</h2>
+    <ol start="56">
+      <li>Alces Kingdom is an anti-communist micronation.</li>
+      <li>The nation supports private ownership and individual responsibility.</li>
+      <li>The government should have clearly defined powers.</li>
+      <li>Government officials must act in the interests of the nation.</li>
+      <li>Citizens may peacefully criticize government decisions.</li>
+      <li>Political opposition is not a crime.</li>
+      <li>No citizen may be forced to join a political party.</li>
+      <li>No citizen must agree with every government policy.</li>
+      <li>Government decisions should be communicated clearly.</li>
+      <li>Public officials must not abuse their authority.</li>
+      <li>Citizens may propose new laws.</li>
+      <li>National rules should be reasonable and understandable.</li>
+      <li>The government should protect citizens from violence and theft.</li>
+      <li>National symbols should be treated respectfully.</li>
+      <li>Alces Kingdom should seek peaceful relations with other micronations.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h2 style="color:var(--green);">Article VI — Citizenship</h2>
+    <ol start="71">
+      <li>Citizenship is granted according to the official citizenship process.</li>
+      <li>Citizens should respect the rights of others.</li>
+      <li>Citizenship applications should be handled fairly.</li>
+      <li>Citizens may leave Alces Kingdom whenever they wish.</li>
+      <li>Participation in national activities is voluntary.</li>
+      <li>New citizens should be welcomed respectfully.</li>
+      <li>Citizens must not impersonate government officials.</li>
+      <li>Citizenship may be suspended under established rules following serious misconduct.</li>
+      <li>Revoking citizenship should follow a fair process.</li>
+      <li>Citizens may suggest improvements to the nation.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h2 style="color:var(--green);">Article VII — Online Conduct</h2>
+    <ol start="81">
+      <li>Citizens may express their opinions online.</li>
+      <li>Credible threats of violence are prohibited.</li>
+      <li>Doxxing intended to endanger or intimidate someone is prohibited.</li>
+      <li>Scamming other citizens online is prohibited.</li>
+      <li>Impersonation intended to commit fraud is prohibited.</li>
+      <li>Citizens should respect other people's privacy.</li>
+      <li>Political jokes and peaceful criticism are permitted.</li>
+      <li>Social media disagreements should be handled peacefully.</li>
+      <li>Nobody may falsely claim official authority.</li>
+      <li>Serious online misconduct may be reviewed by the government.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h2 style="color:var(--green);">Article VIII — Everyday Life</h2>
+    <ol start="91">
+      <li>Citizens may choose their own hobbies.</li>
+      <li>Citizens may listen to the music they enjoy.</li>
+      <li>Citizens may dress as they wish.</li>
+      <li>Citizens may organize peaceful gatherings.</li>
+      <li>Citizens may express their personalities freely.</li>
+      <li>The government should not interfere unnecessarily in private life.</li>
+      <li>Citizens should respect personal boundaries.</li>
+      <li>Ordinary mistakes should not automatically result in punishment.</li>
+      <li>Warnings may be used for minor first-time violations.</li>
+      <li>Citizens are encouraged to help one another voluntarily.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h2 style="color:var(--green);">Article IX — Fair Enforcement</h2>
+    <ol start="101">
+      <li>Laws apply to citizens and government officials alike.</li>
+      <li>No one should be punished solely because an official dislikes them.</li>
+      <li>Evidence should be considered before serious penalties are imposed.</li>
+      <li>Accused citizens should have an opportunity to explain themselves.</li>
+      <li>Citizens may appeal government decisions.</li>
+      <li>Punishments should be proportionate to the offence.</li>
+      <li>Minor conflicts should not become serious government matters without good reason.</li>
+      <li>Rules should be applied consistently.</li>
+      <li>New laws should be announced clearly.</li>
+      <li>Changes to existing laws should follow the nation's established process.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h2 style="color:var(--green);">Article X — Final Principles</h2>
+    <ol start="111">
+      <li>Freedom comes with responsibility.</li>
+      <li>Violence is not an acceptable way to settle disputes.</li>
+      <li>Murder, robbery, theft, assault, and threats of violence are prohibited.</li>
+      <li>Private property and voluntary cooperation are important national principles.</li>
+      <li>Christianity is the national religion, and citizens may also choose to be non-religious.</li>
+      <li>No citizen is required to pretend to hold a religious belief.</li>
+      <li>The government should not control every aspect of everyday life.</li>
+      <li>Citizens should be able to live peacefully without unnecessary interference.</li>
+      <li>The nation values independence, responsibility, order, and freedom.</li>
+      <li>These laws serve as the official rules of Alces Kingdom.</li>
+    </ol>
+  </div>
+</section>
+
+
+<!-- CITIZENSHIP -->
+<section class="page" id="citizenship">
+  <div class="page-heading">
+    <div class="eyebrow">Join the Kingdom</div>
+    <h1>Get Citizenship<span>.</span></h1>
+    <p class="muted">Become part of the Alces Kingdom community.</p>
+  </div>
+
+  <div class="card">
+    <h2>Become a Citizen</h2>
+    <p class="muted">
+      Ready to join Alces Kingdom? Press the button below.
+    </p>
+
+    <button class="button" id="citizenButton">
+      Get Citizenship to Alces Kingdom
+    </button>
+
+    <div class="success" id="successMessage">
+      <h2>✓ Done!</h2>
+      <p>
+        DM Alces Kingdom on TikTok that you are a Citizens.
+      </p>
+      <p>Welcome to the Kingdom!</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  🫎 ALCES KINGDOM · NATURE · PEOPLE · KINGDOM
+  <br><br>
+  ESTABLISHED OCTOBER 27, 2026
+</footer>
+
+<script>
+const pages = document.querySelectorAll(".page");
+const navButtons = document.querySelectorAll("nav button");
+
+function showPage(pageId) {
+  pages.forEach(page => {
+    page.classList.toggle("active", page.id === pageId);
+  });
+
+  navButtons.forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.page === pageId
+    );
+  });
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+navButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    showPage(button.dataset.page);
+  });
+});
+
+document.querySelectorAll("[data-goto]").forEach(button => {
+  button.addEventListener("click", () => {
+    showPage(button.dataset.goto);
+  });
+});
+
+document.getElementById("citizenButton").addEventListener("click", () => {
+  document.getElementById("successMessage").classList.add("show");
+
+  document.getElementById("citizenButton").textContent =
+    "Citizenship requested ✓";
+
+  document.getElementById("citizenButton").disabled = true;
+
+  document.getElementById("successMessage").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+});
+</script>
+
+</body>
+</html>
